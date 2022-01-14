@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import joiRoutes from './routes/joi';
+import yupRoutes from './routes/yup';
 
 const router = express();
 
@@ -35,6 +36,7 @@ router.use((req, res, next) => {
 
 /** Routes */
 router.use('/joi', joiRoutes);
+router.use('/yup', yupRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {

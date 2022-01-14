@@ -1,13 +1,12 @@
-import Yup from 'yup';
+import { object, string, number, date, AnyObjectSchema } from 'yup';
 import { NextFunction, Request, Response } from 'express';
-import { OptionalObjectSchema } from 'yup/lib/object';
 
-export const ValidateYup = (schema: OptionalObjectSchema<any>) => {
+export const ValidateYup = (schema: AnyObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const value = await schema.isValid(req.body);
+            const data = await schema.validate(req.body);
 
-            console.info(value);
+            console.log(data);
 
             next();
         } catch (error) {
@@ -19,13 +18,11 @@ export const ValidateYup = (schema: OptionalObjectSchema<any>) => {
 };
 
 export const Schemas = {
-    data: Yup.object().shape({
-        name: Yup.string().required(),
-        age: Yup.number().required().positive().integer(),
-        email: Yup.string().email(),
-        website: Yup.string().url(),
-        createdOn: Yup.date().default(function () {
-            return new Date();
-        })
+    data: object().shape({
+        name: string().required(),
+        age: number().required().positive().integer(),
+        email: string().email(),
+        website: string().url(),
+        createdOn: date().default(() => new Date())
     })
 };

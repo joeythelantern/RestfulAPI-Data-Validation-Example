@@ -1,12 +1,11 @@
 import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
+import { IJoiData } from '../interfaces/joi';
 
 export const ValidateJoi = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const value = await schema.validateAsync(req.body);
-
-            console.info(value);
+            await schema.validateAsync(req.body);
 
             next();
         } catch (error) {
@@ -18,7 +17,7 @@ export const ValidateJoi = (schema: ObjectSchema) => {
 };
 
 export const Schemas = {
-    data: Joi.object({
+    data: Joi.object<IJoiData>({
         username: Joi.string().alphanum().min(3).max(15).required(),
         password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
         email: Joi.string()

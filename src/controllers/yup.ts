@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import { IYupData } from '../interfaces/yup';
 
-const joiSampleRoute = (req: Request, res: Response, next: NextFunction) => {
+const yupSampleRoute = (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
-        data: req.body
+        data: res.locals.data as IYupData
     });
 };
 
-export default { joiSampleRoute };
+export default { yupSampleRoute };
